@@ -7,8 +7,10 @@ public class DesktopLauncher {
 
     public static void main(final String[] arg) {
         final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Drop");
+        config.setWindowedMode(800, 480);
+        config.useVsync(true);
         config.setForegroundFPS(60);
-        config.setTitle("libGDX-Simple-Game");
         new Lwjgl3Application(new SimpleGame(), config);
     }
 
