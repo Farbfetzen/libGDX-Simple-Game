@@ -58,10 +58,10 @@ public class GameScreen implements Screen {
             bucket.x = touchPos.x - 64 / 2f;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+            bucket.x -= 200 * delta;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            bucket.x += 200 * Gdx.graphics.getDeltaTime();
+            bucket.x += 200 * delta;
         }
         if (bucket.x < 0) {
             bucket.x = 0;
@@ -75,7 +75,7 @@ public class GameScreen implements Screen {
 
         for (final Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext(); ) {
             final Rectangle raindrop = iter.next();
-            raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
+            raindrop.y -= 200 * delta;
             if (raindrop.y + 64 < 0) {
                 iter.remove();
             } else if (raindrop.overlaps(bucket)) {
