@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(final Drop game) {
         this.game = game;
-        game.currentScreen = this;
+        game.setCurrentScreen(this);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
@@ -88,14 +88,14 @@ public class GameScreen implements Screen {
 
         ScreenUtils.clear(0, 0, 0.2f, 1);
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.batch.draw(bucketImage, bucket.x, bucket.y);
+        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getBatch().begin();
+        game.getBatch().draw(bucketImage, bucket.x, bucket.y);
         for (final Rectangle raindrop : raindrops) {
-            game.batch.draw(dropImage, raindrop.x, raindrop.y);
+            game.getBatch().draw(dropImage, raindrop.x, raindrop.y);
         }
-        game.font.draw(game.batch, "Drops collected: " + dropsCollected, 0, 480);
-        game.batch.end();
+        game.getFont().draw(game.getBatch(), "Drops collected: " + dropsCollected, 0, 480);
+        game.getBatch().end();
     }
 
     @Override

@@ -12,7 +12,7 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(final Drop game) {
         this.game = game;
-        game.currentScreen = this;
+        game.setCurrentScreen(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
     }
@@ -21,11 +21,11 @@ public class MainMenuScreen implements Screen {
     public void render(final float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Drop!", 100, 150);
-        game.font.draw(game.batch, "Tap anywhere to begin.", 100, 100);
-        game.batch.end();
+        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getBatch().begin();
+        game.getFont().draw(game.getBatch(), "Welcome to Drop!", 100, 150);
+        game.getFont().draw(game.getBatch(), "Tap anywhere to begin.", 100, 100);
+        game.getBatch().end();
 
         if (Gdx.input.isTouched()) {
             game.setScreen(new GameScreen(game));
