@@ -2,14 +2,13 @@ package farbfetzen.libgdxsimplegame;
 
 import java.util.Iterator;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -17,33 +16,34 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class SimpleGame extends ApplicationAdapter {
+public class GameScreen implements Screen {
 
     private static final float TEXTURE_MAX_X = 800 - 64f;
+    private final Drop game;
     private final Vector3 touchPos = new Vector3();
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private Texture bucketImage;
-    private Texture dropImage;
-    private Sound dropSound;
-    private Music rainMusic;
-    private Rectangle bucket;
-    private Array<Rectangle> raindrops;
+    private final OrthographicCamera camera;
+    private final Texture bucketImage;
+    private final Texture dropImage;
+    private final Sound dropSound;
+    private final Music rainMusic;
+    private final Rectangle bucket;
+    private final Array<Rectangle> raindrops;
     private long lastDropTime;
+    private int dropsCollected;
 
-    @Override
-    public void create() {
+    public GameScreen(final Drop game) {
+        this.game = game;
+        game.currentScreen = this;
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        batch = new SpriteBatch();
 
         dropImage = new Texture("droplet.png");
         bucketImage = new Texture("bucket.png");
+
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
         rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
-
         rainMusic.setLooping(true);
-        rainMusic.play();
 
         bucket = new Rectangle(800 / 2f - 64 / 2f, 20, 64, 64);
 
@@ -52,7 +52,7 @@ public class SimpleGame extends ApplicationAdapter {
     }
 
     @Override
-    public void render() {
+    public void render(final float delta) {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
@@ -80,6 +80,7 @@ public class SimpleGame extends ApplicationAdapter {
             if (raindrop.y + 64 < 0) {
                 iter.remove();
             } else if (raindrop.overlaps(bucket)) {
+                dropsCollected++;
                 dropSound.play();
                 iter.remove();
             }
@@ -87,18 +88,43 @@ public class SimpleGame extends ApplicationAdapter {
 
         ScreenUtils.clear(0, 0, 0.2f, 1);
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(bucketImage, bucket.x, bucket.y);
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+        game.batch.draw(bucketImage, bucket.x, bucket.y);
         for (final Rectangle raindrop : raindrops) {
-            batch.draw(dropImage, raindrop.x, raindrop.y);
+            game.batch.draw(dropImage, raindrop.x, raindrop.y);
         }
-        batch.end();
+        game.font.draw(game.batch, "Drops collected: " + dropsCollected, 0, 480);
+        game.batch.end();
+    }
+
+    @Override
+    public void show() {
+        rainMusic.play();
+    }
+
+    @Override
+    public void resize(final int width, final int height) {
+        // Method is empty because it's unused in this tutorial.
+    }
+
+    @Override
+    public void pause() {
+        // Method is empty because it's unused in this tutorial.
+    }
+
+    @Override
+    public void resume() {
+        // Method is empty because it's unused in this tutorial.
+    }
+
+    @Override
+    public void hide() {
+        // Method is empty because it's unused in this tutorial.
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
         bucketImage.dispose();
         dropImage.dispose();
         dropSound.dispose();
@@ -110,5 +136,4 @@ public class SimpleGame extends ApplicationAdapter {
         raindrops.add(raindrop);
         lastDropTime = TimeUtils.nanoTime();
     }
-
 }
