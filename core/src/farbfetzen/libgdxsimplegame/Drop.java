@@ -22,8 +22,6 @@ public class Drop extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
-        if (screen != null) {
-            screen.dispose();
-        }
+        screen.dispose();
     }
 }
