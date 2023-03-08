@@ -2,7 +2,7 @@ package farbfetzen.libgdxsimplegame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lombok.Getter;
 
-public class GameScreen implements Screen {
+public class GameScreen extends ScreenAdapter {
 
     public static final float TEXTURE_MAX_X = 800 - 64f;
     private final Drop game;
@@ -45,26 +45,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         rainMusic.play();
-    }
-
-    @Override
-    public void resize(final int width, final int height) {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void pause() {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void resume() {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void hide() {
-        // Method is empty because it's unused in this tutorial.
     }
 
     @Override

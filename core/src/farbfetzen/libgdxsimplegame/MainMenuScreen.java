@@ -1,11 +1,11 @@
 package farbfetzen.libgdxsimplegame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends ScreenAdapter {
 
     private final Drop game;
     private final OrthographicCamera camera;
@@ -30,35 +30,5 @@ public class MainMenuScreen implements Screen {
             game.setScreen(new GameScreen(game));
             dispose();
         }
-    }
-
-    @Override
-    public void show() {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void resize(final int width, final int height) {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void pause() {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void resume() {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void hide() {
-        // Method is empty because it's unused in this tutorial.
-    }
-
-    @Override
-    public void dispose() {
-        // Method is empty because it's unused in this tutorial.
     }
 }
